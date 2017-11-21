@@ -22,7 +22,6 @@
 
 #include "Orientation.h"
 #include "game.h"
-//to fazendo uma alteraçao aewwwwwww
 
 int main(int argc, char *argv[])
 {
