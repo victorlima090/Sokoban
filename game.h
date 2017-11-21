@@ -9,7 +9,7 @@
 #include <vector>
 #include<iostream>
 #include <algorithm>
-//n
+
 class Game: public QObject {
     Q_OBJECT
 
@@ -19,7 +19,7 @@ public:
     //int index(int column, int row);
     Q_INVOKABLE void startNewGame();
 
-    QObject *object =0;
+   // QObject *object;
     //var boardItems; // list of floor, goal and border items on the field
     int maxIndex = 0; // number of cells in the current level's field = gameCanvas.numOfColumns * gameCanvas.numOfRows
     //var board; // array containing the description of the current level's board
