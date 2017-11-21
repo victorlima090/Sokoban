@@ -9,7 +9,7 @@
 #include <vector>
 #include<iostream>
 #include <algorithm>
-//new comment
+//n
 class Game: public QObject {
     Q_OBJECT
 
