@@ -4,9 +4,11 @@ QT += quick sensors
 
 # Source files
 SOURCES += main.cpp orientation.cpp \
-    game.cpp
+    game.cpp \
+    qtshell.cpp
 HEADERS += orientation.h \
-    game.h
+    game.h \
+    qtshell.h
 RESOURCES += qmlsokoban.qrc
 
 DISTFILES += \

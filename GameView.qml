@@ -46,7 +46,6 @@ Item {
 	Component.onCompleted: loadLevelCollection("levels_original");
 	function startNewGame() {
         //Game.startNewGame();
-
         game2.startNewGame();
 	}
 	function clearGame() {
@@ -163,7 +162,8 @@ Item {
 			id: gameCanvasGameOverMouseArea
 			enabled: false
 			anchors.fill: parent
-			onClicked: Game.startNewGame();
+            //onClicked: Game.startNewGame();
+            onClicked: game2.startNweGame();
 		}
 	}
 

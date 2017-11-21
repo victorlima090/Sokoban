@@ -43,6 +43,7 @@ function index(column, row) {
 
 function startNewGame() {
 	// go to playing state
+    console.log("Entrou no start game");
 	gameView.state = "playing"
 	if (gameView.currentLevel < 0)
 		gameView.currentLevel = 0;
@@ -76,6 +77,7 @@ function startNewGame() {
 /* Initialization */
 
 function deleteBlocks() {
+    console.log("Entrou no delete blocks");
 	for (var i = 0; i < maxIndex; ++i) {
 		if (boardItems[i] != null)
 		{
@@ -157,7 +159,7 @@ function createBlockObject(item, column, row) {
 	if (component.status == Component.Ready) {
 		dynamicObject = component.createObject(gameCanvas);
 		if (dynamicObject == null) {
-			console.log("error creating block");
+            console.log("error creating block");
 			console.log(component.errorString());
 			return null;
 		}
