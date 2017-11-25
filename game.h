@@ -6,7 +6,7 @@
 #include <QQmlContext>
 #include <QObject>
 
-class Game : public QObject
+class Game : public QObject //teste d pull
 {
     Q_OBJECT
 
