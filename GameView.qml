@@ -46,12 +46,12 @@ Item {
 		Game.deleteBlocks();
 	}
 	function goToPreviousLevel() {
-//        //Begin change
+        //Begin change
         if(currentLevel>0)
             --currentLevel
         else
             currentLevel= levels.length -1
-//        //end change
+        //end change
         startNewGame();
 	}
 	function goToNextLevel() {

@@ -26,8 +26,7 @@ public:
     explicit Game(QObject *parent=0);
     //INVOKABLE
     Q_INVOKABLE static void changeProp();
-//    Q_INVOKABLE static void changeNum(int n);
-//    Q_INVOKABLE static int getNum();
+
 
 signals:
 private:
