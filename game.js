@@ -448,17 +448,17 @@ function undo() {
 /* Change levels */
 
 function goToPreviousLevel() {
-	if (gameView.currentLevel > 0)
-		--gameView.currentLevel;
-	else
-		gameView.currentLevel = gameView.levels.length - 1;
+    if (gameView.currentLevel > 0)
+        --gameView.currentLevel;
+    else
+        gameView.currentLevel = gameView.levels.length - 1;
 	startNewGame();
 }
 
 function goToNextLevel() {
-	if (gameView.currentLevel < gameView.levels.length - 1)
-		++gameView.currentLevel;
-	else
-		gameView.currentLevel = 0;
+    if (gameView.currentLevel < gameView.levels.length - 1)
+        ++gameView.currentLevel;
+    else
+        gameView.currentLevel = 0;
 	startNewGame();
 }

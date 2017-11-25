@@ -46,10 +46,23 @@ Item {
 		Game.deleteBlocks();
 	}
 	function goToPreviousLevel() {
-		Game.goToPreviousLevel();
+//        //Begin change
+        if(currentLevel>0)
+            --currentLevel
+        else
+            currentLevel= levels.length -1
+//        //end change
+        startNewGame();
 	}
 	function goToNextLevel() {
-		Game.goToNextLevel();
+        //begin change
+
+        if(currentLevel<levels.length -1)
+            ++currentLevel;
+        else
+            currentLevel = 0;
+        //end change
+        startNewGame();
 	}
 	function zoomIn() {
 		Game.zoomIn();
@@ -173,6 +186,11 @@ Item {
 		Keys.onRightPressed: Game.moveRight();
 		Keys.onDownPressed: Game.moveDown();
 		Keys.onUpPressed: Game.moveUp();
+        //begin change
+        //Botao 0 faz mudar d leval automaticamente
+        Keys.onDigit0Pressed: goToNextLevel();
+        Keys.onDigit1Pressed: goToPreviousLevel();
+        //end change
 		Keys.onCancelPressed: gameView.state = "gameover";
 		Keys.onBackPressed: gameView.state = "gameover";
 		Keys.onEscapePressed: gameView.state = "gameover";
