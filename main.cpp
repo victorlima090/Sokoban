@@ -18,7 +18,12 @@
 
 #include <QGuiApplication>
 #include <QQuickView>
+#include <QtQuick>
+#include <QQmlEngine>
+#include <QQmlContext>
+#include <QDebug>
 #include <qqml.h> // for qmlRegisterType
+#include "game.h"
 
 #include "orientation.h"
 
@@ -28,9 +33,12 @@ QGuiApplication app( argc, argv );
 
 // Expose the Orientation class
 qmlRegisterType<Orientation>( "GameComponents", 1, 0, "Orientation" );
+qmlRegisterType<Game>( "GameComponents", 2, 0, "Game" );
 
 QQuickView viewer;
-viewer.setSource( QUrl( "qrc:///main.qml" ) );
+viewer.setSource( QUrl( "qrc:///main.qml"));
+Game::setEngine(viewer.engine(),viewer.rootObject());
+
 viewer.show();
 
 return app.exec();
