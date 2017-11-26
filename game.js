@@ -37,7 +37,7 @@ var undoHistory; // list of moves of the man and whether the man pushed an objec
 var undoHistoryStep; // number of the current step in the undo history
 
 // Index function used instead of 2D array
-function index(column, row) {
+function index(column, row) { //traduzido
 	return column + (row * gameCanvas.numOfColumns);
 }
 
@@ -94,7 +94,7 @@ function deleteBlocks() {
 		itemMan.opacity = 0;
 }
 
-function createBoard() {
+function createBoard() { //traduzido, falta a parte do level
 	board = new Array(gameCanvas.numOfRows);
 	numOfGoals = 0;
 	numOfTreasures = 0;
@@ -150,7 +150,7 @@ function initBoard() {
 	}
 }
 
-function createBlockObject(item, column, row) {
+function createBlockObject(item, column, row) { //está no gameview.qml
 	var dynamicObject = null;
 	var component = Qt.createComponent(item);
 
@@ -171,7 +171,7 @@ function createBlockObject(item, column, row) {
 	return dynamicObject;
 }
 
-function createBlock(column, row) {
+function createBlock(column, row) { //traduzido, itemMan??
 	var blockSet = ["ItemFloor.qml", "ItemGoal.qml", "ItemObject.qml", "ItemMan.qml", "ItemBorder0.qml", "ItemBorder1.qml", "ItemBorder2.qml", "ItemBorder3.qml"];
 	var which = board[row][column]; // 0: outside, 1: inside, 2: border, 3: goal, 4: object, 5: man, 6: object on goal, 7: man on goal
 	var item;
@@ -233,7 +233,7 @@ function createBlock(column, row) {
 /*******************************************************************/
 /* Zooming */
 
-function setZooming(isZooming) {
+function setZooming(isZooming) { //traduzido
 	for (var row = 0; row < gameCanvas.numOfRows; ++row) {
 		for (var column = 0; column < gameCanvas.numOfColumns; ++column) {
 			if (board[row][column] > 0)
@@ -246,7 +246,7 @@ function setZooming(isZooming) {
 		itemMan.isZooming = isZooming;
 }
 
-function recenterMan(x, y, dx, dy) {
+function recenterMan(x, y, dx, dy) { //gameViwe.qml
 	var currentManPixelX = x * gameCanvas.blockSize + gameCanvas.offsetX;
 	var currentManPixelY = y * gameCanvas.blockSize + gameCanvas.offsetY;
 
@@ -281,7 +281,7 @@ function recenterMan(x, y, dx, dy) {
 		}
 }
 
-function zoomIn() {
+function zoomIn() { // está no qml
 	if (6 * gameCanvas.blockSize > gameCanvas.width || 6 * gameCanvas.blockSize > gameCanvas.height)
 		return;
 
@@ -291,7 +291,7 @@ function zoomIn() {
 	setZooming(false);
 }
 
-function zoomOut() {
+function zoomOut() { //está no qml
 	if (gameCanvas.blockSize < 10)
 		return;
 
@@ -304,7 +304,7 @@ function zoomOut() {
 /*******************************************************************/
 /* Move man in board */
 
-function testLevelWon() {
+function testLevelWon() { //traduzido
 	if (numOfTreasures == numOfGoals) {
 		if (gameView.currentLevel >= gameView.levels.length - 1)
 			gameView.state = "gamewon";
@@ -313,7 +313,7 @@ function testLevelWon() {
 	}
 }
 
-function findItemObjectNumber(column, row) {
+function findItemObjectNumber(column, row) { //traduzido
 	var which = -1;
 	for (var i = 0; i < itemObjects.length; ++i) {
 		if (itemObjects[i].column == column && itemObjects[i].row == row) {
@@ -324,13 +324,13 @@ function findItemObjectNumber(column, row) {
 	return which;
 }
 
-function changeManPosition(oldX, oldY, newX, newY, dx, dy) {
+function changeManPosition(oldX, oldY, newX, newY, dx, dy) { //traduzido
 	board[newY][newX] += 4; // 1: inside -> 5: man; 3: goal -> 7: man on goal
 	board[oldY][oldX] -= 4; // 5 -> 1; 7 -> 3
 	recenterMan(newX, newY, dx, dy);
 }
 
-function changeObjectPosition(which, oldX, oldY, newX, newY) {
+function changeObjectPosition(which, oldX, oldY, newX, newY) { //traduzido
 	if (board[oldY][oldX] == 6) // if object previously on goal
 		--numOfTreasures;
 	board[newY][newX] += 3; // 1: inside -> 4: object; 3: goal -> 6: treasure
@@ -447,7 +447,7 @@ function undo() {
 /*******************************************************************/
 /* Change levels */
 
-function goToPreviousLevel() {
+function goToPreviousLevel() { //no qml, mas não tem o startNewGame()
     if (gameView.currentLevel > 0)
         --gameView.currentLevel;
     else
@@ -455,7 +455,7 @@ function goToPreviousLevel() {
 	startNewGame();
 }
 
-function goToNextLevel() {
+function goToNextLevel() { //no qml, mas não tem o startNewGame()
     if (gameView.currentLevel < gameView.levels.length - 1)
         ++gameView.currentLevel;
     else

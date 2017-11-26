@@ -32,13 +32,114 @@ Item {
 	property int currentLevel: -1
 	property alias isAnimated: gameCanvas.isAnimated
 	property variant levels
+    property alias numRows: gameCanvas.numOfRows
+    property alias numColumns: gameCanvas.numOfColumns
+    property alias blocksize: gameCanvas.blockSize
+    property alias offsetx: gameCanvas.offsetX
+    property alias offsety: gameCanvas.offsetY
 
 	function loadLevelCollection(name) {
         var levelCollection = Qt.createQmlObject('import QtQuick 2.0; import "levels/' + name + '.js" as Levels; Item { property variant levels: Levels.levels }', gameView, "LevelCollection");
 		levels = levelCollection.levels;
 		levelCollection.destroy();
 	}
+
 	Component.onCompleted: loadLevelCollection("levels_original");
+
+    function createBlockObject(item, column, row) {
+        var dynamicObject = null;
+        var component = Qt.createComponent(item);
+        //cria um componente do tipo do item que deve ser o bloco
+
+        if (component.status == Component.Ready) {
+            dynamicObject = component.createObject(gameCanvas); //cria o objeto dentro de game canvas??
+            if (dynamicObject == null) {
+                console.log("error creating block");
+                console.log(component.errorString());
+                return null;
+            }
+            dynamicObject.column = column //posiciona o objeto no local certo
+            dynamicObject.row = row
+        } else {
+            console.log("error loading block component");
+            console.log(component.errorString());
+            return null;
+        }
+        return dynamicObject;
+    }
+
+    function recenterMan(x, y, dx, dy) {
+        var currentManPixelX = x * gameCanvas.blockSize + gameCanvas.offsetX;
+        var currentManPixelY = y * gameCanvas.blockSize + gameCanvas.offsetY;
+
+        if (gameCanvas.numOfColumns * gameCanvas.blockSize <= gameCanvas.width) {
+            dx = 0;
+            gameCanvas.addOffsetX = 0;
+        }
+        if (gameCanvas.numOfRows * gameCanvas.blockSize <= gameCanvas.height) {
+            dy = 0;
+            gameCanvas.addOffsetY = 0;
+        }
+
+        if (dx < 0 || dx > 1)
+            while (currentManPixelX < 3 * gameCanvas.blockSize) {
+                gameCanvas.addOffsetX += gameCanvas.blockSize;
+                currentManPixelX += gameCanvas.blockSize;
+            }
+        if (dy < 0 || dy > 1)
+            while (currentManPixelY < 3 * gameCanvas.blockSize) {
+                gameCanvas.addOffsetY += gameCanvas.blockSize;
+                currentManPixelY += gameCanvas.blockSize;
+            }
+        if (dx > 0)
+            while (currentManPixelX > gameCanvas.width - 3 * gameCanvas.blockSize) {
+                gameCanvas.addOffsetX -= gameCanvas.blockSize;
+                currentManPixelX -= gameCanvas.blockSize;
+            }
+        if (dy > 0)
+            while (currentManPixelY > gameCanvas.height - 3 * gameCanvas.blockSize) {
+                gameCanvas.addOffsetY -= gameCanvas.blockSize;
+                currentManPixelY -= gameCanvas.blockSize;
+            }
+    }
+
+    function zoomIn() {
+        if (6 * gameCanvas.blockSize > gameCanvas.width || 6 * gameCanvas.blockSize > gameCanvas.height)
+            return;
+
+        setZooming(true);
+        gameCanvas.addBlockSize += 5;
+        recenterMan(itemMan.column, itemMan.row, 2, 2); // dx = 2 and dy = 2 in order to force recentering in both directions
+        setZooming(false);
+    }
+
+    function zoomOut() {
+        if (gameCanvas.blockSize < 10)
+            return;
+
+        setZooming(true);
+        gameCanvas.addBlockSize -= 5;
+        recenterMan(itemMan.column, itemMan.row, 2, 2); // dx = 2 and dy = 2 in order to force recentering in both directions
+        setZooming(false);
+    }
+
+    function goToPreviousLevel() {
+        if (gameView.currentLevel > 0)
+            --gameView.currentLevel;
+        else
+            gameView.currentLevel = gameView.levels.length - 1;
+        Game.startNewGame();
+    }
+
+    function goToNextLevel() {
+        if (gameView.currentLevel < gameView.levels.length - 1)
+            ++gameView.currentLevel;
+        else
+            gameView.currentLevel = 0;
+        Game.startNewGame();
+    }
+
+
 	function startNewGame() {
 		Game.startNewGame();
 	}
